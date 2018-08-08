@@ -30,7 +30,7 @@ public class RessourceBehaviorImplementation implements RessourcesBehaviore {
 		// TODO Auto-generated method stub
 		Ressources ressources = repositorie.getOne(idRessource);
 		ressources = ressource;
-		repositorie.saveAndFlush(ressources);
+		repositorie.flush();
 		return getAllRessources();
 	}
 

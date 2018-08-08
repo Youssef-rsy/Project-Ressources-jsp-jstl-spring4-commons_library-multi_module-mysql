@@ -51,5 +51,6 @@
 	</dependencies>
 	<modules>
 		<module>Ressources_Business</module>
+		<module>Ressources_Presentation</module>
 	</modules>
 </project>
