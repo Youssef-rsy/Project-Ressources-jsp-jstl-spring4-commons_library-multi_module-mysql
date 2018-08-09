@@ -1,4 +1,6 @@
 <!doctype html>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
@@ -12,7 +14,9 @@
 
 
     <!-- Bootstrap core CSS     -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="<c:url value="assets/css/bootstrap.min.css"/>" rel="stylesheet" />
+ <%--     <link href="<c:url value="ressources/assets/css/bootstrap.min.css"/>" rel="stylesheet" />
+     <link href="<c:url value="ressources/css/bootstrap.min.css"/>" rel="stylesheet" /> --%>
 
     <!-- Animation library for notifications   -->
     <link href="assets/css/animate.min.css" rel="stylesheet"/>

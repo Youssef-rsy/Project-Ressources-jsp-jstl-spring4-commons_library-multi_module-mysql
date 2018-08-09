@@ -27,5 +27,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Asus Gamer/Desktop/ressources_commons/ressources_commons.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -23,39 +23,53 @@ public class ResourceController {
 	private RessourcesBehaviore ressourceBehavior;
 
 	private Ressources ressource;
+	
+	private model.Ressources ressources;
+	private List<model.Ressources> lst;
 
-	@GetMapping
-	public List<Ressources> getAllRessources() {
+	/*@GetMapping
+	public List<model.Ressources> getAllRessources() {
 		return allRessources();
 	}
 
 	@PostMapping
-	public List<Ressources> addNewRessource(@RequestBody Ressources ressource) {
-		ressourceBehavior.addRessources(ressource);
-		return allRessources();
+	public List<model.Ressources> addNewRessource(@RequestBody model.Ressources ressource) {
+		lst = ressourceBehavior.addRessources(ressource);
+		return lst;
 	}
 
 	@DeleteMapping("/{id}")
-	public List<Ressources> deleteRessources(@PathVariable long id) {
+	public List<model.Ressources> deleteRessources(@PathVariable long id) {
 		ressourceBehavior.DeleteRessource(id);
 		return allRessources();
 	}
 
 	@PutMapping("/{id}")
-	public List<Ressources> updateeRessources(@PathVariable long id, @RequestBody Ressources ressource) {
+	public List<model.Ressources> updateeRessources(@PathVariable long id, @RequestBody model.Ressources ressource) {
 		System.out.println("->" + ressource);
 		ressourceBehavior.updateRessource(id, ressource);
 		return allRessources();
 	}
-
+*/
 	@GetMapping("/{id}")
-	public Ressources getRessource(@PathVariable long id) {
-		ressource = ressourceBehavior.getRessource(id);
-		return ressource;
+	public model.Ressources getRessource(@PathVariable long id) {
+		ressources = matchingData( ressourceBehavior.getRessource(id));
+		return ressources;
 	}
 
-	public List<Ressources> allRessources() {
-		return ressourceBehavior.getAllRessources();
+	/*public List<model.Ressources> allRessources() {
+		lst = ressourceBehavior.getAllRessources();
+		return lst;
+	}*/
+	
+	public model.Ressources matchingData(Ressources res){
+		ressources.setIdRessouces(res.getIdRessouces());
+		ressources.setNom(res.getNom());
+		ressource.setPrenom(res.getPrenom());
+		ressource.setDateAffectation(res.getDateAffectation());
+		ressource.setProjet(res.getProjet());
+		ressource.setStatus(res.getStatus());
+		return ressources;
 	}
 
 }
