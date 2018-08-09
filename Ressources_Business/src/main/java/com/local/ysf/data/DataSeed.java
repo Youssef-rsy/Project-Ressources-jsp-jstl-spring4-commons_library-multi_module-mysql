@@ -37,10 +37,10 @@ public class DataSeed {
 		lst.add(new Ressources("MALAK ", "SAHIH", new Date(), "Testeur"));
 		
 		System.out.println("ADDING DATA");
-		lst.forEach(ressource -> System.out.println(ressource));
+		//lst.forEach(ressource -> System.out.println(ressource));
 		
 		
-		lst.forEach(ressource -> repositorie.save(ressource));
+		//lst.forEach(ressource -> repositorie.save(ressource));
 		
 		
 	}
@@ -56,7 +56,7 @@ public class DataSeed {
 		lst.add(new Projets("project 5", null, new Date(), new Date(), null));
 		lst.add(new Projets("project 6", null, new Date(), new Date(), null));
 		
-		lst.forEach(projet -> pjRepositories.save(projet));
+		//lst.forEach(projet -> pjRepositories.save(projet));
 		
 		
 	}

@@ -1,10 +1,5 @@
 Manifest-Version: 1.0
-Implementation-Title: Ressources_Business
-Implementation-Version: 0.0.1-SNAPSHOT
 Built-By: adminibm
-Implementation-Vendor-Id: com.local.ysf
 Build-Jdk: 1.8.0_171
-Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
- ot-starter-parent/Ressources/Ressources_Business
 Created-By: Maven Integration for Eclipse
 
