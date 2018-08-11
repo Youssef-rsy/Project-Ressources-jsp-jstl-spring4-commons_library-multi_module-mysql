@@ -111,8 +111,11 @@ public class Ressources {
 
 	@Override
 	public String toString() {
-		return "Ressources [nom=" + nom + ", prenom=" + prenom + ", dateAffectation=" + dateAffectation + ", status="
-				+ status + "]";
+		return "Ressources [idRessouces=" + idRessouces + ", nom=" + nom + ", prenom=" + prenom + ", dateAffectation="
+				+ dateAffectation + ", status=" + status + ", projet=" + projet + "]";
 	}
+
+
+	
 
 }

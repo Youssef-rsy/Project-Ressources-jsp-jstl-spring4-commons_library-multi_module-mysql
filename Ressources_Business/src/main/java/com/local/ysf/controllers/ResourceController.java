@@ -1,5 +1,6 @@
 package com.local.ysf.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.local.ysf.Service.ResosurcesProjetServices;
 import com.local.ysf.Service.RessourcesBehaviore;
 import com.local.ysf.entities.Ressources;
 
@@ -23,23 +25,24 @@ public class ResourceController {
 	private RessourcesBehaviore ressourceBehavior;
 
 	private Ressources ressource;
-	
+
 	private model.Ressources ressources;
 	private List<model.Ressources> lst;
 
-	/*@GetMapping
+	
+	@GetMapping
 	public List<model.Ressources> getAllRessources() {
 		return allRessources();
 	}
 
 	@PostMapping
 	public List<model.Ressources> addNewRessource(@RequestBody model.Ressources ressource) {
-		lst = ressourceBehavior.addRessources(ressource);
-		return lst;
+		ressourceBehavior.addRessources(ResosurcesProjetServices.matchingDataModelToRessources(ressource));
+		return allRessources();
 	}
 
 	@DeleteMapping("/{id}")
-	public List<model.Ressources> deleteRessources(@PathVariable long id) {
+	public List<model.Ressources>deleteRessources(@PathVariable long id) {
 		ressourceBehavior.DeleteRessource(id);
 		return allRessources();
 	}
@@ -47,29 +50,22 @@ public class ResourceController {
 	@PutMapping("/{id}")
 	public List<model.Ressources> updateeRessources(@PathVariable long id, @RequestBody model.Ressources ressource) {
 		System.out.println("->" + ressource);
-		ressourceBehavior.updateRessource(id, ressource);
+		ressourceBehavior.updateRessource(id, ResosurcesProjetServices.matchingDataModelToRessources(ressource));
 		return allRessources();
 	}
-*/
+
 	@GetMapping("/{id}")
 	public model.Ressources getRessource(@PathVariable long id) {
-		ressources = matchingData( ressourceBehavior.getRessource(id));
+		ressources = ResosurcesProjetServices.matchingDataRessourcesToModel(ressourceBehavior.getRessource(id));
+		System.out.println(ressources.toString());
 		return ressources;
 	}
 
-	/*public List<model.Ressources> allRessources() {
-		lst = ressourceBehavior.getAllRessources();
+	public List<model.Ressources> allRessources() {
+		lst = ResosurcesProjetServices.matchingListRessources(ressourceBehavior.getAllRessources());
 		return lst;
-	}*/
-	
-	public model.Ressources matchingData(Ressources res){
-		ressources.setIdRessouces(res.getIdRessouces());
-		ressources.setNom(res.getNom());
-		ressource.setPrenom(res.getPrenom());
-		ressource.setDateAffectation(res.getDateAffectation());
-		ressource.setProjet(res.getProjet());
-		ressource.setStatus(res.getStatus());
-		return ressources;
 	}
+
+	
 
 }
