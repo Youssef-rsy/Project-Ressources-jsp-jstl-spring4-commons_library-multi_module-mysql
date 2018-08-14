@@ -1,5 +1,5 @@
 <!doctype html>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -138,7 +138,8 @@
 									</button>
 
 								</div>
-								<div class="content table-responsive table-full-width">
+								<div id="ressourcetable"
+									class="content table-responsive table-full-width">
 									<table class="table table-hover table-striped">
 										<thead>
 											<th>ID</th>
@@ -150,27 +151,28 @@
 											<th>Operation</th>
 										</thead>
 										<tbody>
-											
+
 											<c:forEach items="${listResssources}" var="rs" varStatus="i">
 												<tr>
-													<td><c:out value="${rs.idRessouces}"/></td>
-													<td><c:out value="${rs.nom}"/></td>
-													<td><c:out value="${rs.prenom}"/></td>
+													<td><c:out value="${rs.idRessouces}" /></td>
+													<td><c:out value="${rs.nom}" /></td>
+													<td><c:out value="${rs.prenom}" /></td>
 													<%--<td> <c:out value="${rs.refog}"/> </td>--%>
-													<td><c:out value="${rs.dateAffectation}"/></td>
-													<td><c:out value="${rs.status}"/></td>
-													<td>
-														<button type="button" class="btn btn-warning">
+													<td><c:out value="${rs.dateAffectation}" /></td>
+													<td><c:out value="${rs.status}" /></td>
+													<td><input type="hidden" value="${rs.idRessouces}"
+														name="idval">
+														<button type="button" class="btn btn-warning"
+															onclick="deleteRessources(${rs.idRessouces})">
 															<i class="pe-7s-delete-user"></i>
-														</button>
-														<button type="button" class="btn btn-warning">
+														</button> <!-- <button type="button" class="btn btn-warning">
 															<i class="pe-7s-trash"></i>
-														</button>
+														</button> -->
 														<button type="button" class="btn btn-primary"
+															onclick=" getRessource(${rs.idRessouces})"
 															data-toggle="modal" data-target=".edit">
 															<i class="pe-7s-tools"></i>
-														</button>
-													</td>
+														</button></td>
 												</tr>
 											</c:forEach>
 
@@ -200,8 +202,9 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body">
-					<form method="post" action="/">
+
+				<form >
+					<div class="modal-body">
 						<div class="form-group">
 							<label for="nom" class="col-form-label">Nom:</label> <input
 								type="text" class="form-control" id="nom" name="nom">
@@ -222,19 +225,21 @@
 						<div class="form-group">
 							<label for="integration" class="col-form-label">Status:</label> <label
 								for="exampleSelect1">Example select</label> <select
-								class="form-control" id="responsable" name="responsable">
+								class="form-control" id="status" name="status">
 								<option>Developper</option>
 								<option>Testeur</option>
 								<option>Responsable</option>
 							</select>
 						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Fermer</button>
-					<button type="button" class="btn btn-primary" id="addRessource">Ajouter</button>
-				</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Fermer</button>
+						<input type="submit" value="add">
+						<button type="button" class="btn btn-primary" id="addRessource">Ajouter</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -292,39 +297,40 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+				<form>
 				<div class="modal-body">
-					<form>
+					
 						<div class="form-group">
 							<label for="nomUp" class="col-form-label">Nom:</label> <input
-								type="text" class="form-control" id="nomUp" name="nomUp">
+								type="text" class="form-control" id="nomUp" name="nom">
 						</div>
 						<div class="form-group">
 							<label for="prenom" class="col-form-label">Prenom:</label> <input
-								class="form-control" id="prenomUp" name="prenomUp">
+								class="form-control" id="prenomUp" name="prenom">
 						</div>
-						
+
 						<div class="form-group">
 							<label for="integration" class="col-form-label">Date
 								d'integration:</label> <input type="date" class="form-control"
-								id="dateAffectationUp" name="dateAffectationUp">
+								id="dateAffectationUp" name="dateAffectation" value="2017-06-01" >
 						</div>
 						<div class="form-group">
 							<label for="integration" class="col-form-label">Status:</label> <label
 								for="exampleSelect1">Example select</label> <select
-								class="form-control" id="responsableUp" name="responsableUp">
-								<option>Developper</option>
-								<option>Testeur</option>
-								<option>Responsable</option>
+								class="form-control" id="statusUp" name="status">
+								<option id="id1">Developper</option>
+								<option id="id2">Testeur</option>
+								<option id="id3">Responsable</option>
 							</select>
 						</div>
-					</form>
+					<input type="hidden" name="idRessouces" id="idRessoucesUp">
 				</div>
 				<div class="modal-footer">
-					<input type="hidden" name="refUp">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Fermer</button>
-					<button type="button" class="btn btn-primary">Enregistrer</button>
+					<button type="button" class="btn btn-primary" id="updateRessource">Enregistrer</button>
 				</div>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -332,11 +338,255 @@
 </body>
 
 
-
 <script src="<c:url value="/assets/js/jquery.3.2.1.min.js" />"
 	type="text/javascript"></script>
 <!--   Core JS Files   -->
-<script src="<c:url value="/assets/js/ressources-projets.js" />" type="text/javascript"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+	var url = "http://localhost:8080/Ressources_Presentation/RessourcesProjets/";
+
+	/****************delete******************/
+	function deleteRessources(id) {
+		var urn = "ressource/delete/" + id;
+		var uri = url + urn;
+		alert(uri);
+		$.ajax({
+			url : uri,
+			type : 'GET',
+			success : function(data) {
+				window.location.reload();
+			},
+			error : function(jqXHR, exception) {
+				var msg = '';
+				if (jqXHR.status === 0) {
+					msg = 'Not connect.\n Verify Network.';
+				} else if (jqXHR.status == 404) {
+					msg = 'Requested page not found. [404]';
+				} else if (jqXHR.status == 500) {
+					msg = 'Internal Server Error [500].';
+				} else if (exception === 'parsererror') {
+					msg = 'Requested JSON parse failed.';
+				} else if (exception === 'timeout') {
+					msg = 'Time out error.';
+				} else if (exception === 'abort') {
+					msg = 'Ajax request aborted.';
+				} else {
+					msg = 'Uncaught Error.\n' + jqXHR.responseText;
+				}
+				console.log(msg);
+			}
+		});
+	}
+	;
+
+
+	/*********************GET ONE **********************************/
+	function getRessource(id) {
+		var urn = "ressource/" + id;
+		var uri = url + urn;
+		alert(uri);
+		$.ajax({
+			url : uri,
+			type : 'GET',
+			dataType : 'json',
+			contentType : "application/json",
+			success : function(data) {
+				console.log("data :", data);
+
+				$("#nomUp").val(data["nom"]);
+				$("#prenomUp").val(data["prenom"]);
+				$("#idRessoucesUp").val(data["idRessouces"]);
+
+				//$("#dateAffectationUp").val(data["dateAffectation"]);
+				console.log(data["dateAffectation"]);
+				var time = new Date(data["dateAffectation"]);
+				document.getElementById("dateAffectationUp").valueAsDate = new Date(data["dateAffectation"])
+				switch (data["status"]) {
+				case $("#id1").val():
+					$("#id1 ").attr('selected', 'selected');
+					break;
+				case $("#id2").val():
+					$("#id2 ").attr('selected', 'selected');
+					break;
+				case $("#id3").val():
+					$("#id3 ").attr('selected', 'selected');
+					break;
+				default:
+					;
+				}
+
+
+			},
+			error : function(jqXHR, exception) {
+				var msg = '';
+				if (jqXHR.status === 0) {
+					msg = 'Not connect.\n Verify Network.';
+				} else if (jqXHR.status == 404) {
+					msg = 'Requested page not found. [404]';
+				} else if (jqXHR.status == 500) {
+					msg = 'Internal Server Error [500].';
+				} else if (exception === 'parsererror') {
+					msg = 'Requested JSON parse failed.';
+				} else if (exception === 'timeout') {
+					msg = 'Time out error.';
+				} else if (exception === 'abort') {
+					msg = 'Ajax request aborted.';
+				} else {
+					msg = 'Uncaught Error.\n' + jqXHR.responseText;
+				}
+				console.log(msg);
+			}
+		});
+	}
+	;
+
+	$(document).ready(function() {
+
+
+
+
+
+
+		var nom;
+		var prenom;
+		var dateAffectation;
+		var status;
+
+
+
+
+
+
+/**************************************ADDressources*****************************/
+
+		$("#addRessource").click(function() {
+			var urn = "ressource/";
+			var uri = url + urn;
+
+			nom = $("#nom").val();
+			prenom = $("#prenom").val();
+			dateAffectation = $("#dateAffectation").val();
+			status = $("#status").val();
+
+
+			alert("nom = " + nom + "prenom : " + prenom + "dateaffectation : " + dateAffectation + " status : " + status);
+			if (nom && prenom && dateAffectation && status) {
+				alert('begin');
+				var data = {
+					nom : nom,
+					prenom : prenom,
+					dateAffectation : dateAffectation,
+					status : status
+				};
+				alert(uri);
+				// $.post(uri,formdata,function(data, status){alert(status)});
+				var formdata = JSON.stringify(data);
+				alert(formdata);
+				$.ajax({
+					url : uri,
+					type : 'POST',
+					headers : {
+						'Accept' : 'application/json',
+						'Content-Type' : 'application/json'
+					},
+					data : JSON.stringify(data),
+					dataType : 'json',
+					success : function(data) {
+						window.location.reload();
+					},
+					error : function(jqXHR, exception) {
+						var msg = '';
+						if (jqXHR.status === 0) {
+							msg = 'Not connect.\n Verify Network.';
+						} else if (jqXHR.status == 404) {
+							msg = 'Requested page not found. [404]';
+						} else if (jqXHR.status == 500) {
+							msg = 'Internal Server Error [500].';
+						} else if (exception === 'parsererror') {
+							msg = 'Requested JSON parse failed.';
+						} else if (exception === 'timeout') {
+							msg = 'Time out error.';
+						} else if (exception === 'abort') {
+							msg = 'Ajax request aborted.';
+						} else {
+							msg = 'Uncaught Error.\n' + jqXHR.responseText;
+						}
+						console.log(msg);
+					}
+				});
+			} else {
+				alert("l'un des champs et vide");
+			}
+
+		});
+
+
+/**************************UpdateRessources*****************************************/
+		
+		$("#updateRessource").click(function() {
+			var urn = "ressource/update/"+$("#idRessoucesUp").val();
+			var uri = url + urn;
+
+			nom = $("#nomUp").val();
+			prenom = $("#prenomUp").val();
+			dateAffectation = $("#dateAffectationUp").val();
+			status = $("#statusUp").val();
+
+
+			alert("nom = " + nom + "prenom : " + prenom + "dateaffectation : " + dateAffectation + " status : " + status);
+			if (nom && prenom && dateAffectation && status) {
+				alert('begin');
+				var data = {
+					nom : nom,
+					prenom : prenom,
+					dateAffectation : dateAffectation,
+					status : status
+				};
+				alert(uri);
+				// $.post(uri,formdata,function(data, status){alert(status)});
+				var formdata = JSON.stringify(data);
+				alert(formdata);
+				$.ajax({
+					url : uri,
+					type : 'POST',
+					headers : {
+						'Accept' : 'application/json',
+						'Content-Type' : 'application/json'
+					},
+					data : JSON.stringify(data),
+					dataType : 'json',
+					success : function(data) {
+						window.location.reload();
+					},
+					error : function(jqXHR, exception) {
+						var msg = '';
+						if (jqXHR.status === 0) {
+							msg = 'Not connect.\n Verify Network.';
+						} else if (jqXHR.status == 404) {
+							msg = 'Requested page not found. [404]';
+						} else if (jqXHR.status == 500) {
+							msg = 'Internal Server Error [500].';
+						} else if (exception === 'parsererror') {
+							msg = 'Requested JSON parse failed.';
+						} else if (exception === 'timeout') {
+							msg = 'Time out error.';
+						} else if (exception === 'abort') {
+							msg = 'Ajax request aborted.';
+						} else {
+							msg = 'Uncaught Error.\n' + jqXHR.responseText;
+						}
+						console.log(msg);
+					}
+				});
+			} else {
+				alert("l'un des champs et vide");
+			}
+
+		});
+	});
+</script>
+<%-- <script src="<c:url value="/assets/js/ressources-projets.js" />" type="text/javascript"></script> --%>
 <script src="<c:url value="/assets/js/bootstrap.min.js" />"
 	type="text/javascript"></script>
 

@@ -11,7 +11,6 @@
 
 	<context:component-scan base-package="com.local.ysf" />
 
-
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass"
@@ -19,7 +18,9 @@
 		<property name="prefix" value="/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	<mvc:resources mapping="/assets/**" location="/assets/"
-	cache-period="31556926" />
+	
+	<mvc:resources mapping="/assets/**" location="/assets/" cache-period="31556926" />
+	
 	<mvc:annotation-driven />
+	
 </beans>

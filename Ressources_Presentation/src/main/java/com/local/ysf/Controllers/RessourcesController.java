@@ -7,23 +7,28 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
 
 import model.Ressources;
 
-
+@CrossOrigin("*")
 @Controller
 @RequestMapping("RessourcesProjets/ressource/")
 public class RessourcesController {
@@ -31,17 +36,15 @@ public class RessourcesController {
 	private List<Ressources> listRessource;
 	private Ressources myReessource;
 	private  RestTemplate restTemplate;
-	@Value("${basedir}")
-	private String basedir;
 	
-	@GetMapping("/{id}")
-	public Ressources getRessource(@PathVariable long id, Model model) throws URISyntaxException{
+	@GetMapping(value="/{id}" , produces="application/json")
+	public @ResponseBody Ressources getRessource(@PathVariable long id, Model model) throws URISyntaxException{
 		
 		restTemplate =  new RestTemplate();
 		myReessource = new Ressources();
 		URI uri =  new URI("http://localhost:9999/ressources/"+id);
 		myReessource = restTemplate.getForObject(uri, Ressources.class);
-		//model.addAttribute("ressource", myReessource);
+		model.addAttribute("ressource", myReessource);
 		
 		return myReessource;
 	}
@@ -53,7 +56,6 @@ public class RessourcesController {
 		myReessource = new Ressources();
 		URI uri =  new URI("http://localhost:9999/ressources/"+id);
 		restTemplate.delete(uri);
-		
 		model.addAttribute("listResssources", callGetAllRessource());
 		return "home";
 	}
@@ -68,39 +70,64 @@ public class RessourcesController {
 		return "home";
 	}
 	
-	@PostMapping
+	//@PostMapping("/")
+	@RequestMapping(method=RequestMethod.POST , value="/")
 	public String addnewRessources(Model model , @RequestBody Ressources ressourceiN) throws URISyntaxException{
 		System.out.println(ressourceiN.toString());
 		restTemplate =  new RestTemplate();
 		URI uri =  new URI("http://localhost:9999/ressources/");
-		HttpEntity<Ressources> request = new HttpEntity(ressourceiN);
-		Ressources ressource = restTemplate.postForObject(uri, request, Ressources.class);
-		System.out.println(ressource.toString());
+		RestTemplate restTemplate = new RestTemplate();
+        // Data attached to the request.
+        HttpEntity<Ressources> requestBody = new HttpEntity(ressourceiN);
+        // Send request with POST method.
+        ResponseEntity<Ressources[]> result 
+            = restTemplate.postForEntity(uri, requestBody, Ressources[].class);
+        // Code = 200.
+        if (result.getStatusCode() == HttpStatus.OK) {
+        	   Ressources[] objects = result.getBody();
+        	   List<Ressources> listResssources = Arrays.asList(objects);
+               System.out.println("Status code:" + result.getStatusCode());
+               model.addAttribute("listResssources", callGetAllRessource());
+        }
 		
-		model.addAttribute("listResssources", callGetAllRessource());
 		return "home";
 	}
 	
 	
 	
-	@PutMapping
-	public String updateRessources(Model model , @RequestBody Ressources ressourceIn) throws URISyntaxException{
-		restTemplate =  new RestTemplate();
+	@RequestMapping(method=RequestMethod.POST , value="/update/{id}")
+	public String updateRessources(@RequestBody Ressources ressourceIn , @PathVariable long id) throws URISyntaxException{
+		
+		System.out.println(ressourceIn.toString() +"  - id :"+id);
+		
+	 	restTemplate =  new RestTemplate();
 		URI uri =  new URI("http://localhost:9999/ressources/");
 		HttpEntity<Ressources> request = new HttpEntity(ressourceIn);
 		ResponseEntity<Ressources> response = restTemplate
 				  .exchange(uri, HttpMethod.POST, request, Ressources.class);
 		
-		model.addAttribute("listResssources", callGetAllRessource());
+		 HttpHeaders headers = new HttpHeaders();
+	        headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
+	 
+	        RestTemplate restTemplate = new RestTemplate();
+	 
+	        // Data attached to the request.
+	        HttpEntity<Ressources> requestBody = new HttpEntity(ressourceIn, headers);
+	 
+	        // Send request with PUT method.
+	        restTemplate.put(uri, requestBody);
+		
+		
+		//model.addAttribute("listResssources", callGetAllRessource());
 		return "home";
 	}
+	
 	/*public List<Ressources> addnewRessources(@RequestBody Ressources ressource){
 		restTemplate =  new RestTemplate();
 		URI uri =  new URI("http://localhost:9999:projets/")
 		restTemplate.getForObject(url, responseType)
 		return listRessource;
 	}*/
-	
 	
 	public List<Ressources> callGetAllRessource() throws URISyntaxException{
 		restTemplate =  new RestTemplate();
