@@ -57,7 +57,7 @@ public class RessourcesController {
 		URI uri =  new URI("http://localhost:9999/ressources/"+id);
 		restTemplate.delete(uri);
 		model.addAttribute("listResssources", callGetAllRessource());
-		return "home";
+		return "index";
 	}
 	
 	
@@ -67,7 +67,7 @@ public class RessourcesController {
 	public String getALLRessource( Model model) throws URISyntaxException{
 		
 		model.addAttribute("listResssources", callGetAllRessource());
-		return "home";
+		return "index";
 	}
 	
 	//@PostMapping("/")
@@ -90,7 +90,7 @@ public class RessourcesController {
                model.addAttribute("listResssources", callGetAllRessource());
         }
 		
-		return "home";
+		return "index";
 	}
 	
 	
@@ -101,15 +101,12 @@ public class RessourcesController {
 		System.out.println(ressourceIn.toString() +"  - id :"+id);
 		
 	 	restTemplate =  new RestTemplate();
-		URI uri =  new URI("http://localhost:9999/ressources/");
-		HttpEntity<Ressources> request = new HttpEntity(ressourceIn);
-		ResponseEntity<Ressources> response = restTemplate
-				  .exchange(uri, HttpMethod.POST, request, Ressources.class);
+		URI uri =  new URI("http://localhost:9999/ressources/"+id+"/");
 		
 		 HttpHeaders headers = new HttpHeaders();
-	        headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
+	     headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
 	 
-	        RestTemplate restTemplate = new RestTemplate();
+	     RestTemplate restTemplate = new RestTemplate();
 	 
 	        // Data attached to the request.
 	        HttpEntity<Ressources> requestBody = new HttpEntity(ressourceIn, headers);
@@ -117,16 +114,14 @@ public class RessourcesController {
 	        // Send request with PUT method.
 	        restTemplate.put(uri, requestBody);
 		
-		
 		//model.addAttribute("listResssources", callGetAllRessource());
-		return "home";
+		return "index";
 	}
 	
-	/*public List<Ressources> addnewRessources(@RequestBody Ressources ressource){
-		restTemplate =  new RestTemplate();
-		URI uri =  new URI("http://localhost:9999:projets/")
-		restTemplate.getForObject(url, responseType)
-		return listRessource;
+	/* uri =  new URI("http://localhost:9999/ressources/responsable");
+		 responseEntity = restTemplate.getForEntity(uri, Ressources[].class);
+		 objects = responseEntity.getBody();
+		listResssources = Arrays.asList(objects);
 	}*/
 	
 	public List<Ressources> callGetAllRessource() throws URISyntaxException{
@@ -137,6 +132,13 @@ public class RessourcesController {
 		List<Ressources> listResssources = Arrays.asList(objects);
 		return listResssources;
 	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

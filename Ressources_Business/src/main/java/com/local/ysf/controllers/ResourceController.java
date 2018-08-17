@@ -27,11 +27,13 @@ public class ResourceController {
 	private Ressources ressource;
 
 	private model.Ressources ressources;
+	
 	private List<model.Ressources> lst;
 
 	
 	@GetMapping
 	public List<model.Ressources> getAllRessources() {
+		System.out.println("///////////////////////////"+getNonResponsables().size());
 		return allRessources();
 	}
 
@@ -65,7 +67,22 @@ public class ResourceController {
 		lst = ResosurcesProjetServices.matchingListRessources(ressourceBehavior.getAllRessources());
 		return lst;
 	}
-
+	@GetMapping("/responsable")
+	public List<model.Ressources> getResponsables(){
+		lst = ResosurcesProjetServices.matchingListRessources(ressourceBehavior.getResponsableRessource());
+		return lst;
+	}
+	@GetMapping("/nonResponsable")
+	public List<model.Ressources> getNonResponsables(){
+		lst = ResosurcesProjetServices.matchingListRessources(ressourceBehavior.getNonResponsableRessource());
+		return lst;
+	}
+	@GetMapping("/nonAffectedRessources")
+	public List<model.Ressources> getNonAffectedRessources(){
+		lst = ResosurcesProjetServices.matchingListRessources(ressourceBehavior.getNonResponsableRessourceNotAffected());
+		return lst;
+	}	
+	
 	
 
 }

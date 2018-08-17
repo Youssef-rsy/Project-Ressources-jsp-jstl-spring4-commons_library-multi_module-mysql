@@ -11,6 +11,8 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import enummeration.Status;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 public class Ressources {
@@ -21,46 +23,27 @@ public class Ressources {
 	private String nom;
 	private String prenom;
 	private Date dateAffectation;
-	private String status;
-	@JsonIgnore
-	@OneToOne(cascade = CascadeType.ALL)
-	private Projets projet;
+	private  Status status;
+	
 
-	public Ressources(String nom, String prenom, Date dateAffectation, String status, Projets projet) {
+	public Ressources(String nom, String prenom, Date dateAffectation, Status status) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
 		this.dateAffectation = dateAffectation;
 		this.status = status;
-		this.projet = projet;
 	}
 
-	public Ressources(Long idRessouces, String nom, String prenom, Date dateAffectation, String status,
-			Projets projet) {
+	public Ressources(Long idRessouces, String nom, String prenom, Date dateAffectation, Status status
+			) {
 		super();
 		this.idRessouces = idRessouces;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.dateAffectation = dateAffectation;
 		this.status = status;
-		this.projet = projet;
 	}
-	public Ressources( String nom, String prenom, Date dateAffectation, String status
-			) {
-		super();
-		this.nom = nom;
-		this.prenom = prenom;
-		this.dateAffectation = dateAffectation;
-		this.status = status;
-	}
-
-	public Projets getProjet() {
-		return projet;
-	}
-
-	public void setProjet(Projets projet) {
-		this.projet = projet;
-	}
+	
 
 	public Ressources() {
 		super();
@@ -101,18 +84,18 @@ public class Ressources {
 		this.dateAffectation = dateAffectation;
 	}
 
-	public String getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 
 	@Override
 	public String toString() {
 		return "Ressources [idRessouces=" + idRessouces + ", nom=" + nom + ", prenom=" + prenom + ", dateAffectation="
-				+ dateAffectation + ", status=" + status + ", projet=" + projet + "]";
+				+ dateAffectation + ", status=" + status + "]";
 	}
 
 

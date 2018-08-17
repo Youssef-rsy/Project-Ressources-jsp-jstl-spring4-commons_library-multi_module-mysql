@@ -16,10 +16,9 @@ public class ProjetBehaviorImplementation implements ProjetsBehavior {
 	private ProjetsRepositorie repositorie;
 	
 	
-	public List<Projets> addProjets(Projets projet) {
+	public Projets addProjets(Projets projet) {
 		// TODO Auto-generated method stub
-		repositorie.save(projet);
-		return getAllProjets();
+		return repositorie.save(projet);
 	}
 
 	public List<Projets> getAllProjets() {
@@ -29,9 +28,19 @@ public class ProjetBehaviorImplementation implements ProjetsBehavior {
 
 	public List<Projets> updateProjet(Long idProjet, Projets projet) {
 		// TODO Auto-generated method stub
-		Projets projets =getProjet(idProjet);
-		projets = projet;
-		repositorie.saveAndFlush(projets);
+		
+		Projets projets = getProjet(idProjet);
+		projets.setNom(projet.getNom());
+		System.out.println(projets.getNom());
+		projets.setDateDebut(projet.getDateDebut());
+		System.out.println(projet.getDateDebut());
+		projets.setDateFin(projet.getDateFin());
+		System.out.println(projet.getDateFin());
+		projets.setCollaborateur(projet.getCollaborateur());
+		System.out.println(projet.getCollaborateur().size());
+		projets.setResponsable(projet.getResponsable());
+		System.out.println(projet.getResponsable());
+		projets = repositorie.save(projets);
 		return getAllProjets();
 	}
 
@@ -46,7 +55,16 @@ public class ProjetBehaviorImplementation implements ProjetsBehavior {
 		if(optionalProjet.isPresent())
 			return optionalProjet.get();
 		
+		System.out.println("optionalProjet :"+optionalProjet.get().getNom());
 		return null;
+	}
+
+	@Override
+	public void updateProject(Long idp, Projets projet) {
+		// TODO Auto-generated method stub
+		
+		
+		
 	}
 
 }

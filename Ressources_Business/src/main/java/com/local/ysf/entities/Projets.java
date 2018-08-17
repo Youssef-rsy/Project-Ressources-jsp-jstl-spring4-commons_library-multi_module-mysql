@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,13 +22,11 @@ public class Projets {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idProjet;
 	private String nom;
-	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL)
 	private Ressources responsable;
 	private Date dateDebut;
 	private Date dateFin;
-	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
 	private List<Ressources> collaborateur;
 	public Projets() {
 		super();

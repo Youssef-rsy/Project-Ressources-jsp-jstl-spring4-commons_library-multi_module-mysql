@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import  com.local.ysf.Repositories.RessourcesRepositorie;
-import  com.local.ysf.entities.Ressources;
+import com.local.ysf.entities.Ressources;
+
+import enummeration.Status;
 
 @Service
 public class RessourceBehaviorImplementation implements RessourcesBehaviore {
@@ -28,9 +30,13 @@ public class RessourceBehaviorImplementation implements RessourcesBehaviore {
 
 	public List<Ressources> updateRessource(Long idRessource, Ressources ressource) {
 		// TODO Auto-generated method stub
-		Ressources ressources = repositorie.getOne(idRessource);
-		ressources = ressource;
-		repositorie.flush();
+		Ressources ressources = getRessource(idRessource);
+		ressources.setDateAffectation(ressource.getDateAffectation());
+		ressources.setNom(ressource.getNom());
+		ressources.setPrenom(ressource.getPrenom());
+		ressources.setStatus(ressource.getStatus());
+		System.out.println("---------------->"+ressources.toString());
+		repositorie.save(ressources);
 		return getAllRessources();
 	}
 
@@ -45,6 +51,24 @@ public class RessourceBehaviorImplementation implements RessourcesBehaviore {
 		if(optionalRessources.isPresent())
 			return optionalRessources.get();
 		return null;
+	}
+
+	@Override
+	public List<Ressources> getResponsableRessource() {
+		// TODO Auto-generated method stub
+		return repositorie.findByStatus(Status.Responsable);
+	}
+
+	@Override
+	public List<Ressources> getNonResponsableRessource() {
+		// TODO Auto-generated method stub
+		return repositorie.findByStatusIsNot(Status.Responsable);
+	}
+
+	@Override
+	public List<Ressources> getNonResponsableRessourceNotAffected() {
+		// TODO Auto-generated method stub
+		return repositorie.findByStatusIsNot(Status.Responsable);
 	}
 
 }

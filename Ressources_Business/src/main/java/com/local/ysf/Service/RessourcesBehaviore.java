@@ -5,10 +5,14 @@ import java.util.List;
 import com.local.ysf.entities.Ressources;
 
 
+
 public interface RessourcesBehaviore {
 
 	public List<Ressources> addRessources(Ressources ressource);
 	public List<Ressources> getAllRessources();
+	public List<Ressources> getResponsableRessource();
+	public List<Ressources> getNonResponsableRessource();
+	public List<Ressources> getNonResponsableRessourceNotAffected();
 	public List<Ressources> updateRessource(Long idRessource ,Ressources ressource);
 	public void DeleteRessource(Long idRessource);
 	public Ressources getRessource(Long idRessources);

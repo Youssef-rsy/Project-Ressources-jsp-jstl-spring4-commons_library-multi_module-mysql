@@ -58,15 +58,18 @@
 
 			<div class="sidebar-wrapper">
 				<div class="logo">
-					<a href="http://www.creative-tim.com" class="simple-text">
-						Ressources </a>
+					<a href="#" class="simple-text"> Ressources </a>
 				</div>
 
 				<ul class="nav">
-					<li class="active"><a href="#"> <i class="pe-7s-config"></i>
+					<li><a
+						href="/Ressources_Presentation/RessourcesProjets/ressource/">
+							<i class="pe-7s-config"></i>
 							<p>Ressources</p>
 					</a></li>
-					<li class="active"><a href="#"> <i class="pe-7s-config"></i>
+					<li class="active"><a
+						href="/Ressources_Presentation/RessourcesProjets/projets/"> <i
+							class="pe-7s-config"></i>
 							<p>Projets</p>
 					</a></li>
 
@@ -78,40 +81,7 @@
 			<nav class="navbar navbar-default navbar-fixed">
 				<div class="container-fluid">
 
-					<div class="collapse navbar-collapse">
-
-						<!--
-                    <ul class="nav navbar-nav navbar-left">
-                        <li>
-                           <a href="">
-                               <p>Account</p>
-                            </a>
-                        </li>
-                        <li class="dropdown">
-                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <p>
-										Dropdown
-										<b class="caret"></b>
-									</p>
-                              </a>
-                              <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                              </ul>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <p>Log out</p>
-                            </a>
-                        </li>
-						<li class="separator hidden-lg"></li>
-                    </ul>-->
-					</div>
+					<div class="collapse navbar-collapse"></div>
 				</div>
 			</nav>
 
@@ -119,67 +89,86 @@
 			<div class="content">
 				<div class="container-fluid">
 					<div class="row">
-
-
 						<div class="col-md-12">
-
 							<div class="card">
 								<div class="header">
-									<h4 class="title">Gestion des Ressources</h4>
-
+									<h4 class="title">Gestion des Projets</h4>
 									<!-- Large modal -->
 									<button type="button" class="btn btn-success"
 										data-toggle="modal" data-target=".ajout">
-										<i class="pe-7s-plus"></i> une Ressource
+										<i class="pe-7s-plus"></i> un Projet
 									</button>
 									<button type="button" class="btn btn-primary"
 										data-toggle="modal" data-target=".affectation">
-										<i class="pe-7s-repeat"></i> Ressource - Projet
+										<i class="pe-7s-way"></i> Ressource - Projet
 									</button>
-
 								</div>
 								<div id="ressourcetable"
 									class="content table-responsive table-full-width">
 									<table class="table table-hover table-striped">
 										<thead>
-											<th>ID</th>
 											<th>nom</th>
-											<th>prenom</th>
-											<!-- <th>Refog</th >-->
-											<th>date d'integration</th>
-											<th>Status</th>
+											<th>Responsable</th>
+											<th>date debut</th>
+											<th>date fin</th>
 											<th>Operation</th>
 										</thead>
 										<tbody>
-
-											<c:forEach items="${listResssources}" var="rs" varStatus="i">
+											<c:forEach items="${listProjets}" var="pj" varStatus="i">
 												<tr>
-													<td><c:out value="${rs.idRessouces}" /></td>
-													<td><c:out value="${rs.nom}" /></td>
-													<td><c:out value="${rs.prenom}" /></td>
-													<%--<td> <c:out value="${rs.refog}"/> </td>--%>
-													<td><c:out value="${rs.dateAffectation}" /></td>
-													<td><c:out value="${rs.status}" /></td>
-													<td><input type="hidden" value="${rs.idRessouces}"
+													<td><c:out value="${pj.nom}" /></td>
+													<td><c:out value="${pj.responsable.nom} ${pj.responsable.prenom}" /></td>
+													<td><c:out value="${pj.dateDebut}" /></td>
+													<td><c:out value="${pj.dateFin}" /></td>
+													<td><input type="hidden" value="${pj.idProjet}"
 														name="idval">
-														<button type="button" class="btn btn-warning"
-															onclick="deleteRessources(${rs.idRessouces})">
-															<i class="pe-7s-delete-user"></i>
-														</button> <!-- <button type="button" class="btn btn-warning">
-															<i class="pe-7s-trash"></i>
-														</button> -->
+														<button class="btn btn-success" type="button"
+															data-toggle="collapse" data-target="#collapseExample${pj.idProjet}"
+															aria-expanded="false" aria-controls="collapseExample${pj.idProjet}">
+															<i class="pe-7s-note2"></i></button>
+															
 														<button type="button" class="btn btn-primary"
-															onclick=" getRessource(${rs.idRessouces})"
-															data-toggle="modal" data-target=".edit">
+															onclick="  getProjet(${pj.idProjet})" data-toggle="modal"
+															data-target=".edit">
 															<i class="pe-7s-tools"></i>
-														</button></td>
+														</button>
+														<button type="button" class="btn btn-warning"
+															onclick="deleteProjets(${pj.idProjet})">
+															<i class="pe-7s-trash"></i>
+														</button>
+												</tr>
+												<tr>
+													<td colspan="7">
+														<div class="collapse" id="collapseExample${pj.idProjet}">
+															<div class="card card-body">
+																<table class="table table-hover table-striped">
+																	<thead>
+																		<th>nom</th>
+																		<th>prenom</th>
+																		<th>date d'integration</th>
+																		<th>Status</th>
+																	</thead>
+																	<tbody>
+ 																		<c:set var = "var" value = "${pj.collaborateur}"/>
+																		<c:forEach items="${var}" var="rs"
+																			varStatus="i">
+																			<tr>
+																				<td><c:out value="${rs.nom}" /></td>
+																				<td><c:out value="${rs.prenom}" /></td>
+																				<td><c:out value="${rs.dateAffectation}" /></td>
+																				<td><c:out value="${rs.status}" /></td>
+																				
+																			</tr>
+																		</c:forEach>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</td>
 												</tr>
 											</c:forEach>
-
-
 										</tbody>
 									</table>
-
 								</div>
 							</div>
 						</div>
@@ -203,41 +192,39 @@
 					</button>
 				</div>
 
-				<form >
+				<form>
 					<div class="modal-body">
 						<div class="form-group">
 							<label for="nom" class="col-form-label">Nom:</label> <input
 								type="text" class="form-control" id="nom" name="nom">
 						</div>
 						<div class="form-group">
-							<label for="prenom" class="col-form-label">Prenom:</label> <input
-								class="form-control" id="prenom" name="prenom">
-						</div>
-						<!-- <div class="form-group">
-							<label for="refog" class="col-form-label">Refog:</label> <input
-								type="text" class="form-control" id="refog" name="refog">
-						</div> -->
-						<div class="form-group">
-							<label for="integration" class="col-form-label">Date
-								d'integration:</label> <input type="date" class="form-control"
-								id="dateAffectation" name="dateAffectation">
-						</div>
-						<div class="form-group">
-							<label for="integration" class="col-form-label">Status:</label> <label
-								for="exampleSelect1">Example select</label> <select
-								class="form-control" id="status" name="status">
-								<option>Developper</option>
-								<option>Testeur</option>
-								<option>Responsable</option>
+							<label for="exampleSelect1">Responsable</label> <select
+								class="form-control" id="responsable" name="responsable">
+
+								<c:forEach items="${listResponsables}" var="resp" varStatus="i">
+									<option value="<c:out value="${resp.idRessouces}" />">${resp.nom}
+										${resp.prenom}</option>
+								</c:forEach>
 							</select>
 						</div>
+						<div class="form-group">
+							<label for="integration" class="col-form-label">Date
+								Debut:</label> <input type="date" class="form-control" id="dateDebut"
+								name="dateDebut">
+						</div>
+						<div class="form-group">
+							<label for="integration" class="col-form-label">Date Fin:</label>
+							<input type="date" class="form-control" id="dateFin"
+								name="dateFin">
+						</div>
+
 
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">Fermer</button>
-						<input type="submit" value="add">
-						<button type="button" class="btn btn-primary" id="addRessource">Ajouter</button>
+						<button type="button" class="btn btn-primary" id="addProjet">Ajouter</button>
 					</div>
 				</form>
 			</div>
@@ -258,22 +245,22 @@
 					<form>
 						<div class="form-group col-md-6">
 							<label for="exampleSelect1">Select Ressources</label> <select
-								multiple class="form-control" id="exampleSelect1">
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
+								class="form-control" id="responsableAff" name="responsableAff"
+								multiple>
+								<c:forEach items="${listNonResponsables}" var="resp"
+									varStatus="i">
+									<option value="<c:out value="${resp.idRessouces}" />">${resp.nom}
+										${resp.prenom}</option>
+								</c:forEach>
 							</select>
 						</div>
 						<div class="form-group col-md-6">
-							<label for="exampleSelect1">Select Projet</label> <select
-								class="form-control" id="exampleSelect1">
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
+							<label for="exampleSelect1">Select Projet</label><select
+								class="form-control" id="projetAff" name="projetAff">
+								<c:forEach items="${listProjets}" var="proj" varStatus="i">
+									<option value="<c:out value="${proj.idProjet}" />">${proj.nom}
+									</option>
+								</c:forEach>
 							</select>
 						</div>
 					</form>
@@ -281,7 +268,7 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Fermer</button>
-					<button type="button" class="btn btn-primary">Affecter</button>
+					<button type="button" class="btn btn-primary" id="affecter">Affecter</button>
 				</div>
 			</div>
 		</div>
@@ -298,38 +285,39 @@
 					</button>
 				</div>
 				<form>
-				<div class="modal-body">
-					
+					<div class="modal-body">
 						<div class="form-group">
-							<label for="nomUp" class="col-form-label">Nom:</label> <input
+							<label for="nom" class="col-form-label">Nom:</label> <input
 								type="text" class="form-control" id="nomUp" name="nom">
 						</div>
 						<div class="form-group">
-							<label for="prenom" class="col-form-label">Prenom:</label> <input
-								class="form-control" id="prenomUp" name="prenom">
-						</div>
-
-						<div class="form-group">
-							<label for="integration" class="col-form-label">Date
-								d'integration:</label> <input type="date" class="form-control"
-								id="dateAffectationUp" name="dateAffectation" value="2017-06-01" >
-						</div>
-						<div class="form-group">
-							<label for="integration" class="col-form-label">Status:</label> <label
-								for="exampleSelect1">Example select</label> <select
-								class="form-control" id="statusUp" name="status">
-								<option id="id1">Developper</option>
-								<option id="id2">Testeur</option>
-								<option id="id3">Responsable</option>
+							<label for="exampleSelect1">Responsable</label> <select
+								class="form-control" id="responsableUp" name="responsable">
+								<c:forEach items="${listResponsables}" var="resp"
+									varStatus="i">
+									<option value="<c:out value="${resp.idRessouces}" />">${resp.nom}
+										${resp.prenom}</option>
+								</c:forEach>
 							</select>
 						</div>
-					<input type="hidden" name="idRessouces" id="idRessoucesUp">
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Fermer</button>
-					<button type="button" class="btn btn-primary" id="updateRessource">Enregistrer</button>
-				</div>
+						<div class="form-group">
+							<label for="integration" class="col-form-label">Date
+								Debut:</label> <input type="date" class="form-control" id="dateDebutUp"
+								name="dateDebut">
+						</div>
+						<div class="form-group">
+							<label for="integration" class="col-form-label">Date Fin:</label>
+							<input type="date" class="form-control" id="dateFinUp"
+								name="dateFin">
+						</div>
+
+						<input type="hidden" name="idProjetUp" id="idProjetUp">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Fermer</button>
+						<button type="button" class="btn btn-primary" id="updateProjet">Enregistrer</button>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -344,13 +332,25 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+    $(".your-click-event").on("click", function(){
+      $(".custom-view").css({ "display" : "table-cell" });
+    })
+
+</script>
+<script>
 	var url = "http://localhost:8080/Ressources_Presentation/RessourcesProjets/";
 
+
+
+		function showAffect(){
+			alert();
+		};
+
+	
 	/****************delete******************/
-	function deleteRessources(id) {
-		var urn = "ressource/delete/" + id;
+	function deleteProjets(id) {
+		var urn = "projets/delete/" + id;
 		var uri = url + urn;
-		alert(uri);
 		$.ajax({
 			url : uri,
 			type : 'GET',
@@ -382,10 +382,9 @@
 
 
 	/*********************GET ONE **********************************/
-	function getRessource(id) {
-		var urn = "ressource/" + id;
+	function getProjet(id) {
+		var urn = "projets/" + id;
 		var uri = url + urn;
-		alert(uri);
 		$.ajax({
 			url : uri,
 			type : 'GET',
@@ -393,16 +392,17 @@
 			contentType : "application/json",
 			success : function(data) {
 				console.log("data :", data);
-
+			
+				
 				$("#nomUp").val(data["nom"]);
-				$("#prenomUp").val(data["prenom"]);
-				$("#idRessoucesUp").val(data["idRessouces"]);
+				$("#responsableUp").val(data["responsable"]);
+				$("#idProjetUp").val(data["idProjet"]);
 
 				//$("#dateAffectationUp").val(data["dateAffectation"]);
-				console.log(data["dateAffectation"]);
-				var time = new Date(data["dateAffectation"]);
-				document.getElementById("dateAffectationUp").valueAsDate = new Date(data["dateAffectation"])
-				switch (data["status"]) {
+				document.getElementById("dateDebutUp").valueAsDate = new Date(data["dateDebut"])
+				document.getElementById("dateFinUp").valueAsDate = new Date(data["dateFin"])
+				
+			/* 	switch (data["status"]) {
 				case $("#id1").val():
 					$("#id1 ").attr('selected', 'selected');
 					break;
@@ -415,7 +415,7 @@
 				default:
 					;
 				}
-
+ */
 
 			},
 			error : function(jqXHR, exception) {
@@ -449,9 +449,9 @@
 
 
 		var nom;
-		var prenom;
-		var dateAffectation;
-		var status;
+		var responsable ;
+		var dateDebut;
+		var dateFin ;
 
 
 
@@ -460,27 +460,24 @@
 
 /**************************************ADDressources*****************************/
 
-		$("#addRessource").click(function() {
-			var urn = "ressource/";
+		$("#addProjet").click(function() {
+			var urn = "projets/";
 			var uri = url + urn;
 
 			nom = $("#nom").val();
-			prenom = $("#prenom").val();
-			dateAffectation = $("#dateAffectation").val();
-			status = $("#status").val();
+			responsable = $("#responsable").val();
+			dateDebut = $("#dateDebut").val();
+			dateFin = $("#dateFin").val();
 
 
-			alert("nom = " + nom + "prenom : " + prenom + "dateaffectation : " + dateAffectation + " status : " + status);
-			if (nom && prenom && dateAffectation && status) {
-				alert('begin');
+			//alert("nom = " + nom + "responsable : " + responsable + " - dateDebut : " + dateDebut + " dateFin : " + dateFin);
+			if (nom && responsable && dateDebut && dateFin) {
 				var data = {
 					nom : nom,
-					prenom : prenom,
-					dateAffectation : dateAffectation,
-					status : status
+					responsable: responsable,
+					dateDebut : dateDebut,
+					dateFin : dateFin,
 				};
-				alert(uri);
-				// $.post(uri,formdata,function(data, status){alert(status)});
 				var formdata = JSON.stringify(data);
 				alert(formdata);
 				$.ajax({
@@ -524,24 +521,22 @@
 
 /**************************UpdateRessources*****************************************/
 		
-		$("#updateRessource").click(function() {
-			var urn = "ressource/update/"+$("#idRessoucesUp").val();
+		$("#updateProjet").click(function() {
+			var urn = "projets/update/"+$("#idProjetUp").val();
 			var uri = url + urn;
 
 			nom = $("#nomUp").val();
-			prenom = $("#prenomUp").val();
-			dateAffectation = $("#dateAffectationUp").val();
-			status = $("#statusUp").val();
+			responsable = $("#responsableUp").val();
+			dateDebut = $("#dateDebutUp").val();
+			dateFin = $("#dateFinUp").val();
 
-
-			alert("nom = " + nom + "prenom : " + prenom + "dateaffectation : " + dateAffectation + " status : " + status);
-			if (nom && prenom && dateAffectation && status) {
-				alert('begin');
+			
+			alert("nom = " + nom + "responsable : " + responsable + "dateDebut : " + dateDebut + " dateFin : " + dateFin);
+			if (nom && responsable && dateDebut && dateFin) {
 				var data = {
 					nom : nom,
-					prenom : prenom,
-					dateAffectation : dateAffectation,
-					status : status
+					dateDebut : dateDebut,
+					dateFin : dateFin
 				};
 				alert(uri);
 				// $.post(uri,formdata,function(data, status){alert(status)});
@@ -584,6 +579,56 @@
 			}
 
 		});
+/*****************************************Affectation***************************************************/
+  $("#affecter").click(function() {
+	 	 var projet  = $("#projetAff").val();
+		var urn = "projets/affecter/"+projet;
+		var uri = url + urn;
+		var lstRessource = $("#responsableAff").val();
+		
+
+		alert("lstRessource :"+JSON.stringify(lstRessource))
+		var array ;
+		
+		alert("projet :"+projet)
+		alert(uri)
+		var data = {
+					listRessource :lstRessource,
+				};
+		$.ajax({
+			url : uri,
+			type : 'POST',
+			headers : {
+				'Accept' : 'application/json',
+				'Content-Type' : 'application/json'
+			},
+			data : JSON.stringify(data),
+			dataType : 'json',
+			success : function(data) {
+				window.location.reload();
+			},
+			error : function(jqXHR, exception) {
+				var msg = '';
+				if (jqXHR.status === 0) {
+					msg = 'Not connect.\n Verify Network.';
+				} else if (jqXHR.status == 404) {
+					msg = 'Requested page not found. [404]';
+				} else if (jqXHR.status == 500) {
+					msg = 'Internal Server Error [500].';
+				} else if (exception === 'parsererror') {
+					msg = 'Requested JSON parse failed.';
+				} else if (exception === 'timeout') {
+					msg = 'Time out error.';
+				} else if (exception === 'abort') {
+					msg = 'Ajax request aborted.';
+				} else {
+					msg = 'Uncaught Error.\n' + jqXHR.responseText;
+				}
+				console.log(msg);
+			}
+		});
+	});
+	
 	});
 </script>
 <%-- <script src="<c:url value="/assets/js/ressources-projets.js" />" type="text/javascript"></script> --%>
